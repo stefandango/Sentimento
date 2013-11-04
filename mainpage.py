@@ -8,6 +8,13 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
+medialist = [{"id": "INF", "display": "information.dk" }, 
+		{"id": "TV2", "display": "nyhederne.tv2.dk" }, 
+		{"id": "POL", "display": "politiken.dk" }, 
+		{"id": "EB", "display": "ekstrabladet.dk" }, 
+		{"id": "BT", "display": "bt.dk" },]
+
+
 
 class MainPage(webapp2.RequestHandler):
 
@@ -18,7 +25,12 @@ class MainPage(webapp2.RequestHandler):
 
 class ShowResults(webapp2.RequestHandler):
 
-	def post(self):
+	def get(self):
+
+		for medium in medialist:
+			if(self.request.get(medium["id"])):
+				pass #get what media to add to search list medium.display
+
 		topic = (cgi.escape(self.request.get('Topic')))
 
 		template_values = {"Topic": topic}

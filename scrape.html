@@ -28,10 +28,10 @@
 		<title>SentimentAnalysisScraperSomething-Tool - By Jannik, Stefan and Lars</title>
 	</head>
 	<body>
-		<form action="/result" method="post">
+		<form action="/result" method="get">
 			<div>
 				<h1>Step 1</h1>
-				<p>Enter a topic: <input type="text" name="Topic"> </p>
+				<p>Enter a topic: <input id="topic" type="text" name="Topic"> </p>
 			</div>
 			<div>
 				<h1>Step 2</h1>
@@ -51,6 +51,16 @@
 				<p><input type="submit" value="Submit" class="go"></p>
 			</div>
 		</form>
+<!--
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script type="text/javascript">
+		 	$(function() {
+
+			});
+
+
+		 </script>
+-->
 	</body>
 </html>
 {% endautoescape %}
