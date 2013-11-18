@@ -1,0 +1,7 @@
+challenges during development:
+
+	Mining links from google (limited)
+	Speed / effeciency problems
+	Encodings (unicode ??)
+		- understand encodings
+		- word tokenization, preffered to use nltk, but splitted on danish characters æøå (\xe8, .., ..)
