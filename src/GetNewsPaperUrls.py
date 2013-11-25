@@ -54,6 +54,9 @@ class DownloadSubjectUrls:
 		"""
 		docstring
 		"""
+
+		
+
 		mediadict = {}
 		for media in self.medialist:
 			urllist = geturllistfromquery("site:" + media + " " + self.subject)
@@ -61,11 +64,11 @@ class DownloadSubjectUrls:
 
 		return mediadict
 """
-	def getjuliandate(self, daystosubtract=0):
-		actualdate=date.today()-timedelta(days=daystosubtract)
-		print actualdate
-		jdate = jdcal.gcal2jd(actualdate.year, actualdate.day, actualdate.month)
-		return int(jdate[0] + jdate[1])
+def getjuliandate(daystosubtract=0):
+	actualdate=date.today()-timedelta(days=daystosubtract)
+	print actualdate
+	jdate = jdcal.gcal2jd(actualdate.year, actualdate.day, actualdate.month)
+	return int(jdate[0] + jdate[1])
 """
 
 """

@@ -32,31 +32,34 @@ configdict = {
 
 # From GetNewsPaperUrls.
 MEDIALIST = ["nyhederne.tv2.dk", "ekstrabladet.dk"]
-SUBJECT = "Helle Thorning Smidt"
+SUBJECT = "Miley Cyrus"
 DOWNLOADER = GetNewsPaperUrls.DownloadSubjectUrls(MEDIALIST, SUBJECT, 3)
 SA = SentimentAnalysis()
 
 newsPaperUrls = DOWNLOADER.geturllist()
 
-pr = cProfile.Profile()
-pr.enable()
+#pr = cProfile.Profile()
+#pr.enable()
 
 for newsPaper in newsPaperUrls.keys():
 	urls = newsPaperUrls[newsPaper]
 	text = ""
 
 	for url in urls:
-		print "url: " + url
-		article = Articlescrape(url, configdict)
-		textlist = article.gettextlist()
-		date = article.getdate()
-		print date
+		try:
+			print "url: " + url
+			article = Articlescrape(url, configdict)
+			textlist = article.gettextlist()
+			date = article.getdate()
+			print date
+		except:
+			print "Skipping url"
 	print SA.moodscore(textlist)
 
-pr.disable()
+#pr.disable()
 
-s = StringIO.StringIO()
-sortby = 'cumulative'
-ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
-ps.print_stats()
-print s.getvalue()
+#s = StringIO.StringIO()
+#sortby = 'cumulative'
+#ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+#ps.print_stats()
+#print s.getvalue()

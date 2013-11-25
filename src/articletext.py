@@ -48,13 +48,16 @@ class Articlescrape:
 		return textlist
 
 	def getdate(self):
-		print self.config
+		#print self.config
 		dateelement = self.soup.find(self.config["date"]["find"][0], { "class" : re.compile(self.config["date"]["find"][1]) })
 		if dateelement:
-			datestring = dateelement.findAll(text=True)[0]
-			#locale.setlocale(locale.LC_ALL, 'da_DK.utf8') 
-			#date = time.strptime(datestring, self.config["date"]["format"])
-			return datestring #should be: return date
+			try:
+				datestring = dateelement.findAll(text=True)[0]
+				locale.setlocale(locale.LC_ALL, 'da_DK.utf8') 
+				date = time.strptime(datestring, self.config["date"]["format"])
+				return date #should be: return date
+			except:
+				return None
 		else:
 			return None
 
