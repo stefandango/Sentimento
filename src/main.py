@@ -32,10 +32,12 @@ configdict = {
 
 # From GetNewsPaperUrls.
 MEDIALIST = ["nyhederne.tv2.dk", "ekstrabladet.dk"]
-SUBJECT = "Miley Cyrus"
-DOWNLOADER = GetNewsPaperUrls.DownloadSubjectUrls(MEDIALIST, SUBJECT, 3)
+SUBJECT = "OL"
+DOWNLOADER = GetNewsPaperUrls.DownloadSubjectUrls(MEDIALIST, SUBJECT)
 SA = SentimentAnalysis()
 
+#DOWNLOADER.geturllist(startdate, enddate)
+#startdate = date(2001, 1, 1) enddate = date(2005, 12, 25)
 newsPaperUrls = DOWNLOADER.geturllist()
 
 #pr = cProfile.Profile()

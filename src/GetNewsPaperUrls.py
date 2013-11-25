@@ -1,5 +1,5 @@
 from google import search
-#import jdcal
+import jdcal
 from datetime import date, timedelta
 
 # @TODO: move parameters to config file
@@ -27,49 +27,49 @@ class DownloadSubjectUrls:
 	"""
 	docstring
 	"""
-	def __init__(self, medialist, subject, daysAgo=None):
+	def __init__(self, medialist, subject):
 		self.medialist = medialist
 		self.subject = subject
-		self.daysAgo = daysAgo
 
 	def downloadtofiles(self):
 		"""
 		docstring
 		"""
-		daterange = ""
 
-		"""
-		if (self.daysAgo != None):
-			daterange = "daterange:" + str(self.getjuliandate()) + "-" + 
-			str(self.getjuliandate(self.daysAgo)) + " "
-			print daterange
-		"""
 		for media in self.medialist:
 			urllist = geturllistfromquery("site:" + media + " " + 
 				daterange + self.subject)
 			savetofile(media, urllist)
 		return True
 
-	def geturllist(self):
+	def geturllist(self, startdate=None, enddate=None):
 		"""
 		docstring
 		"""
+		startjulian = None
+		endjulian = None
 
-		
+		if(startdate != None and enddate != None):
+			startjulian = getjuliandate(startdate)
+			endjulian = getjuliandate(enddate)
+
+
 
 		mediadict = {}
 		for media in self.medialist:
-			urllist = geturllistfromquery("site:" + media + " " + self.subject)
+			if(startjulian != None and startjulian != None):
+				urllist = geturllistfromquery("site:" + media + " " + self.subject + 
+					" daterange:" + str(startjulian) + "-" + str(endjulian))
+			else:
+				urllist = geturllistfromquery("site:" + media + " " + self.subject)
+			
 			mediadict[media] = urllist
 
 		return mediadict
-"""
-def getjuliandate(daystosubtract=0):
-	actualdate=date.today()-timedelta(days=daystosubtract)
-	print actualdate
-	jdate = jdcal.gcal2jd(actualdate.year, actualdate.day, actualdate.month)
+
+def getjuliandate(inputdate):
+	jdate = jdcal.gcal2jd(inputdate.year, inputdate.day, inputdate.month)
 	return int(jdate[0] + jdate[1])
-"""
 
 """
 Moved to main.py:
