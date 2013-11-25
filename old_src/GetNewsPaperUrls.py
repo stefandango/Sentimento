@@ -9,7 +9,7 @@ def geturllistfromquery(query):
 	docstring
 	"""
 	urls = []
-	for url in search(query, tld='dk', lang='dk', stop=20, pause=0):
+	for url in search(query, tld='dk', lang='dk', stop=5, pause=0):
 		urls.append(url)
 	return urls 
 

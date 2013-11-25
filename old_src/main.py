@@ -2,7 +2,6 @@ import GetNewsPaperUrls
 import cProfile, pstats, StringIO
 from articletext import Articlescrape
 from SentimentAnalysis import SentimentAnalysis
-from multiprocessing import Pool
 import re
 
 # For article text
@@ -44,24 +43,19 @@ newsPaperUrls = DOWNLOADER.geturllist()
 #pr = cProfile.Profile()
 #pr.enable()
 
-#@TODO make a funktion or wrapper, to go through all urls without waiting
-def testfunctionformultiprocessing(url):
-    article = Articlescrape(url, configdict)
-    textlist = article.gettextlist()
-
-    return textlist
-
-pool = Pool(processes=5)
-
 for newsPaper in newsPaperUrls.keys():
 	urls = newsPaperUrls[newsPaper]
-	print urls
-	print len(urls)
 	text = ""
 
-	l= pool.map(testfunctionformultiprocessing, urls)
-	textlist = [item for sublist in l for item in sublist]
-
+	for url in urls:
+		try:
+			print "url: " + url
+			article = Articlescrape(url, configdict)
+			textlist = article.gettextlist()
+			date = article.getdate()
+			print date
+		except:
+			print "Skipping url"
 	print SA.moodscore(textlist)
 
 #pr.disable()
