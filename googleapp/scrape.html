@@ -25,7 +25,7 @@
 		}
 
 		</style>
-		<title>SentimentAnalysisScraperSomething-Tool - By Jannik, Stefan and Lars</title>
+		<title>Sentimento - By Jannik, Stefan and Lars</title>
 	</head>
 	<body>
 		<form action="/result" method="get">
@@ -36,11 +36,9 @@
 			<div>
 				<h1>Step 2</h1>
 				<p>Select which sites to search:</p>
-				<input type="checkbox" name="INF"> information.dk <br>
-				<input type="checkbox" name="TV2"> nyhederne.tv2.dk <br>
-				<input type="checkbox" name="POL"> politiken.dk<br>
-				<input type="checkbox" name="EB"> ekstrabladet.dk<br>
-				<input type="checkbox" name="BT"> bt.dk<br>
+				{% for site in site_list %}
+                 <input type="checkbox" name="{{ site.id }}"> {{ site.display }}<br/>
+                {% endfor %}
 			</div>
 			<div>
 				<h1>Step 3</h1>
@@ -51,16 +49,6 @@
 				<p><input type="submit" value="Submit" class="go"></p>
 			</div>
 		</form>
-<!--
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script type="text/javascript">
-		 	$(function() {
-
-			});
-
-
-		 </script>
--->
 	</body>
 </html>
 {% endautoescape %}

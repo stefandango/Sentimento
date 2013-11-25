@@ -1,5 +1,6 @@
 import webapp2
 import jinja2
+import json
 import os
 import cgi
 
@@ -12,33 +13,34 @@ medialist = [{"id": "INF", "display": "information.dk" },
 		{"id": "TV2", "display": "nyhederne.tv2.dk" }, 
 		{"id": "POL", "display": "politiken.dk" }, 
 		{"id": "EB", "display": "ekstrabladet.dk" }, 
-		{"id": "BT", "display": "bt.dk" },]
+		{"id": "BT", "display": "bt.dk" }]
 
-
+test_data = [['Score', 'Ekstrabladet.dk', 'BT.dk', 'Information.dk', 'nyhderne.tv2.dk'],
+		['Helle Thorning-Schmidt',  5.5, 5.1, 4.5, 6.4],
+		['Lars Loekke Rasmussen',  3.5, 4.5, 5.9, -3.3]]
 
 class MainPage(webapp2.RequestHandler):
-
     def get(self):
-		template_values = {}
+		template_values = {"site_list": medialist}
 		template = JINJA_ENVIRONMENT.get_template('scrape.html')
 		self.response.write(template.render(template_values))
 
 class ShowResults(webapp2.RequestHandler):
-
 	def get(self):
-
-		for medium in medialist:
-			if(self.request.get(medium["id"])):
-				pass #get what media to add to search list medium.display
-
-		topic = (cgi.escape(self.request.get('Topic')))
-
-		template_values = {"Topic": topic}
+		calc = ((len(test_data) - 1) * 400) + 100
+		width = min(calc, 1200)
+		template_values = {"sentimento_data": test_data, "chart_width": width}
 		template = JINJA_ENVIRONMENT.get_template('results.html')
 		self.response.write(template.render(template_values))
+		
+class Api(webapp2.RequestHandler):
+	def get(self):
+		jsonObj = json.dumps(test_data)
+		self.response.write(jsonObj)
 
 application = webapp2.WSGIApplication([
-    ('/', MainPage),
+	('/', MainPage),
     ('/result', ShowResults),
+	('/api', Api),
 ], debug=True)
 

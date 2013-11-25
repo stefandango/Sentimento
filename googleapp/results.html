@@ -1,34 +1,47 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+		
 		<style>
 		body
 		{
 			background-color:white;
 			text-color
 		}
-
-		div {
-			background-color: White;
-			float: left;
-			width: 20%;
-			height: 230px;
-			border-width:1px;
-			border-style:solid;
-			border-color:#000000;
-		}
-		input.go
-		{
-			height: 50px;
-			width: 100px;
-		}
-
+		
 		</style>
-		<title>SentimentAnalysisScraperSomething-Tool - By Jannik, Stefan and Lars</title>
+		<title>Sentimento - By Jannik, Stefan and Lars</title>
+		<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script type="text/javascript">
+		  google.load("visualization", "1", {packages:["corechart"]});
+		  google.setOnLoadCallback(getChartData);
+		  
+		  function getChartData(){
+			$.get("/api").done(function(data){
+				console.log(data);
+				//var json = $.parseJSON(data);
+				drawChart(JSON.parse(data));
+			});
+		  }
+		  
+		  function drawChart(json_data) {
+			var data = google.visualization.arrayToDataTable(json_data);
+
+			var options = {
+			  title: 'Sentiment analysis results',
+			  width: {{ chart_width }},
+			  height: '400'
+			};
+
+			var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+			chart.draw(data, options);
+		  }
+		</script>
 	</head>
 	<body>
-	<h1> Coming Soon! </h1>
-	<p> stuff </p>
-
+		<h1> Results </h1>
+		<div id="chart_div"></div>
 	</body>
 </html>
