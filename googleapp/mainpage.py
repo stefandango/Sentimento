@@ -4,11 +4,15 @@ import json
 import os
 import cgi
 import logging
+import time
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
+
+mediadict = {"INF": "information.dk", "TV2": "nyhederne.tv2.dk", 
+		"POL": "politiken.dk", "EB": "ekstrabladet.dk", "BT": "bt.dk"}
 
 medialist = [{"id": "INF", "display": "information.dk" }, 
 		{"id": "TV2", "display": "nyhederne.tv2.dk" }, 
@@ -40,11 +44,27 @@ class Api(webapp2.RequestHandler):
 		Topic = self.request.get('Topic')
 		Sources = self.request.get('Sources').split(",")
 
+		media = []
+		for s in Sources:
+			if(s in mediadict.keys()):
+				media.append(mediadict[s])
+
+		startdate = self.request.get('Startdate')
+		enddate = self.request.get('Enddate')
+
+		if(startdate != "" or enddate != ""):
+			startdate = time.strptime(self.request.get('Startdate'), "%d-%m-%Y")
+			enddate = time.strptime(self.request.get('Enddate'), "%d-%m-%Y")
+
 		
+
+		#"%d. %B %Y, %H:%M"
+				
+		#logging.info(self.request.get('Startdate'))
 
 		jsonObj = json.dumps(test_data)
 		self.response.write(jsonObj)
-		logging.info('-----------test variable: %s', Sources)
+
 application = webapp2.WSGIApplication([
 	('/', MainPage),
     ('/result', ShowResults),

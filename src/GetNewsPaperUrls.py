@@ -4,12 +4,12 @@ from datetime import date, timedelta
 
 # @TODO: move parameters to config file
 
-def geturllistfromquery(query):
+def geturllistfromquery(query, amount=20):
 	"""
 	docstring
 	"""
 	urls = []
-	for url in search(query, tld='dk', lang='dk', stop=20, pause=0):
+	for url in search(query, tld='dk', lang='dk', stop=amount, pause=0):
 		urls.append(url)
 	return urls 
 
