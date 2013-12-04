@@ -9,7 +9,7 @@ def geturllistfromquery(query):
 	docstring
 	"""
 	urls = []
-	for url in search(query, tld='dk', lang='dk', stop=20, pause=0):
+	for url in search(query, tld='dk', lang='dk', stop=20, num=20, pause=0):
 		urls.append(url)
 	return urls 
 
@@ -71,11 +71,4 @@ def getjuliandate(inputdate):
 	jdate = jdcal.gcal2jd(inputdate.year, inputdate.day, inputdate.month)
 	return int(jdate[0] + jdate[1])
 
-"""
-Moved to main.py:
 
-MEDIALIST = ["ekstrabladet.dk", "politiken.dk"]
-SUBJECT = "Helle Thorning Smidt"
-DOWNLOADER = DownloadSubjectUrls(MEDIALIST, SUBJECT, 3)
-print DOWNLOADER.geturllist()
-"""

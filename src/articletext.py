@@ -51,13 +51,12 @@ class Articlescrape:
 		#print self.config
 		dateelement = self.soup.find(self.config["date"]["find"][0], { "class" : re.compile(self.config["date"]["find"][1]) })
 		if dateelement:
-			try:
-				datestring = dateelement.findAll(text=True)[0]
-				locale.setlocale(locale.LC_ALL, 'da_DK.utf8') 
-				date = time.strptime(datestring, self.config["date"]["format"])
-				return date #should be: return date
-			except:
-				return None
+			
+			datestring = dateelement.findAll(text=True)[0]
+			locale.setlocale(locale.LC_ALL, 'da_DK.UTF-8') 
+			date = datetime.datetime.strptime(datestring, self.config["date"]["format"]).date()
+
+			return date #should be: return date
 		else:
 			return None
 
