@@ -19,10 +19,21 @@
 		  google.setOnLoadCallback(getChartData);
 		  
 		  function getChartData(){
-			$.get("/api").done(function(data){
+
+		  	//Get query data
+		  	//Topic=fdsf&TV2=on&EB=on
+
+		  	send_data = {"Topic": GetURLParameter("Topic"),
+		  				"Sources": GetURLParameter("Sources")
+
+		  	};
+		  	console.log(send_data);
+
+
+			$.get("/api", send_data).done(function(data){
 				console.log(data);
 				//var json = $.parseJSON(data);
-				drawChart(JSON.parse(data));
+				//drawChart(JSON.parse(data));
 			});
 		  }
 		  
@@ -38,6 +49,19 @@
 			var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
 			chart.draw(data, options);
 		  }
+		  function GetURLParameter(sParam){
+
+		    var sPageURL = window.location.search.substring(1);
+		    var sURLVariables = sPageURL.split('&');
+		    for (var i = 0; i < sURLVariables.length; i++) 
+			    {
+			        var sParameterName = sURLVariables[i].split('=');
+			        if (sParameterName[0] == sParam) 
+			        {
+			            return sParameterName[1];
+			        }
+			    }
+			}
 		</script>
 	</head>
 	<body>

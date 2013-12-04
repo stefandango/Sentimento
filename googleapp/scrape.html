@@ -26,19 +26,40 @@
 
 		</style>
 		<title>Sentimento - By Jannik, Stefan and Lars</title>
+		<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			function redirect() {
+				var topic = $("#topic").val();
+							
+				var selected = new Array();
+				$('#checkboxes input:checked').each(function() {
+				    selected.push($(this).attr('name'));
+				});
+
+				//Make sure that some input has been selected.
+				if(topic=undefined || topic.length === 0 || selected.length === 0){
+					alert("Please input more data");
+				}
+				else{
+					window.location.replace("/result?Topic=" + topic + "&" + "Sources=" + selected);	
+				}
+
+				
+			}
+		</script>
 	</head>
 	<body>
-		<form action="/result" method="get">
+		<form action="javascript:redirect()" method="get">
 			<div>
 				<h1>Step 1</h1>
 				<p>Enter a topic: <input id="topic" type="text" name="Topic"> </p>
 			</div>
-			<div>
+			<div id="checkboxes">
 				<h1>Step 2</h1>
 				<p>Select which sites to search:</p>
-				{% for site in site_list %}
-                 <input type="checkbox" name="{{ site.id }}"> {{ site.display }}<br/>
-                {% endfor %}
+					{% for site in site_list %}
+	                 <input type="checkbox" name="{{ site.id }}"> {{ site.display }}<br/>
+	                {% endfor %}
 			</div>
 			<div>
 				<h1>Step 3</h1>

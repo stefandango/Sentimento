@@ -3,6 +3,7 @@ import jinja2
 import json
 import os
 import cgi
+import logging
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -16,7 +17,6 @@ medialist = [{"id": "INF", "display": "information.dk" },
 		{"id": "BT", "display": "bt.dk" }]
 
 test_data = [['Score', 'Ekstrabladet.dk', 'BT.dk', 'Information.dk', 'nyhderne.tv2.dk'],
-		['Helle Thorning-Schmidt',  5.5, 5.1, 4.5, 6.4],
 		['Lars Loekke Rasmussen',  3.5, 4.5, 5.9, -3.3]]
 
 class MainPage(webapp2.RequestHandler):
@@ -35,9 +35,16 @@ class ShowResults(webapp2.RequestHandler):
 		
 class Api(webapp2.RequestHandler):
 	def get(self):
+
+		#Sanitize input 
+		Topic = self.request.get('Topic')
+		Sources = self.request.get('Sources').split(",")
+
+		
+
 		jsonObj = json.dumps(test_data)
 		self.response.write(jsonObj)
-
+		logging.info('-----------test variable: %s', Sources)
 application = webapp2.WSGIApplication([
 	('/', MainPage),
     ('/result', ShowResults),
