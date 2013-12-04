@@ -6,6 +6,7 @@ from SentimentAnalysis import SentimentAnalysis
 from multiprocessing import Pool
 from collections import defaultdict
 import re
+import json
 
 # For article text
 configdict = { 
@@ -126,14 +127,14 @@ pool = Pool(processes=10)
 contentlist = pool.map(fetchcontent, urls)
 print "contentlist"
 print contentlist
-granularity = "all";
+granularity = "day";
 paperText = concanate(contentlist, granularity)
 print "paperText"
 print paperText
 
 paperSentiments = textlisttosentiment(paperText);
 print "paperSentiments"
-print paperSentiments
+print json.dumps(paperSentiments)
 #pr.disable()
 
 #s = StringIO.StringIO()
