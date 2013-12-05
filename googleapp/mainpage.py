@@ -57,7 +57,10 @@ class Api(webapp2.RequestHandler):
 			startdate = time.strptime(self.request.get('Startdate'), "%d-%m-%Y")
 			enddate = time.strptime(self.request.get('Enddate'), "%d-%m-%Y")
 		
-		analysismodule = mainmodule.sentimentanalysismodule(media, topic)
+		if(startdate != "" and enddate != ""): 	
+			analysismodule = mainmodule.sentimentanalysismodule(media, topic, startdate, enddate)
+		else:
+			analysismodule = mainmodule.sentimentanalysismodule(media, topic)
 
 		data = analysismodule.startanalysis()
 

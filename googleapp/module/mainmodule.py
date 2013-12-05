@@ -53,11 +53,11 @@ class sentimentanalysismodule():
 
 	def __init__(self, medialist, subject, startdate=None, enddate=None):
 		self.medialist = medialist
-		logging.info(":::SUBJECT::: " + subject)
+		
 		badchars = ['<','>','\"','\'','\\','/',';',':','!','?']
 		for badchar in badchars:
 			subject = subject.replace(badchar, '')
-		logging.info(":::SUBJECT::: " + subject)
+		
 		self.subject = subject
 		self.startdate = startdate
 		self.enddate = enddate
@@ -112,7 +112,8 @@ def concatenation(contentlist):
 		host = urlparse.urlparse(content[0]).hostname
 		textlist = content[1]
 
-		"""
+		if(content[2] == None):
+			continue
 		timetuple = content[2].timetuple()
 
 		#Split date into year, month, week, day
@@ -120,10 +121,10 @@ def concatenation(contentlist):
 		month = timetuple[1]
 		week = content[2].isocalendar()[1]
 		day = timetuple[2]
-		"""
+		
 		#Total text of all host text
 		res["total"][host]["total"] += textlist
-		"""
+		
 		#host text split into year
 		res["year"][host][year] += textlist
 
@@ -138,7 +139,7 @@ def concatenation(contentlist):
 		#host text split into day
 		daystr = str(year) + "-" + str(month) + "-" + str(day)
 		res["day"][host][daystr] += textlist
-		"""
+		
 	return res
 
 
@@ -169,14 +170,12 @@ def fetchcontent():
 				logging.info(task)
 				article = Articlescrape(task, CONFIGDICT)
 				textlist = article.gettextlist()
-				#date = article.getdate()
+				date = article.getdate()
 				
 				#RESULTS.put((task, textlist, date))
-				RESULTS.append(((task, textlist)))
+				RESULTS.append(((task, textlist, date)))
 				if TASKS.empty() == True:
 					break
-			except:
-				pass
 
 			finally:
 				TASKS.task_done()

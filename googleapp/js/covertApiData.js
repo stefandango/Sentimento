@@ -1,7 +1,7 @@
 function getRows(data, dateFormat){
 var i = 0;
 var res = [];
-var fillIn = null;
+var fillIn = true;
 var xAxisName = "Tid";
 
 // Match values and make rows
