@@ -87,12 +87,12 @@ def get_page(url):
     request = Request(url)
     request.add_header('User-Agent',
                        'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0)')
-    cookie_jar.add_cookie_header(request)
+    #cookie_jar.add_cookie_header(request)
     response = urlopen(request)
-    cookie_jar.extract_cookies(response, request)
+    #cookie_jar.extract_cookies(response, request)
     html = response.read()
     response.close()
-    cookie_jar.save()
+    #cookie_jar.save()
     return html
 
 # Filter links found in the Google result pages HTML code.
