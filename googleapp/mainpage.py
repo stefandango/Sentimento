@@ -6,8 +6,6 @@ import cgi
 import logging
 import time
 from module import mainmodule
-import datetime
-
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
@@ -32,13 +30,6 @@ class MainPage(webapp2.RequestHandler):
 		template = JINJA_ENVIRONMENT.get_template('scrape.html')
 		self.response.write(template.render(template_values))
 
-		os.environ['TZ'] = 'Europe/London'
-		datestring = "20. october 2013, 18:43"
-		date = datetime.datetime.strptime(datestring, "%d. %B %Y, %H:%M")
-		logging.info("Yeah")
-		logging.info(date)
-
-
 class ShowResults(webapp2.RequestHandler):
 	def get(self):
 		calc = ((len(test_data) - 1) * 400) + 100
@@ -51,7 +42,7 @@ class Api(webapp2.RequestHandler):
 	def get(self):
 
 		#Sanitize input 
-		Topic = self.request.get('Topic')
+		topic = self.request.get('Topic')
 		Sources = self.request.get('Sources').split(",")
 
 		media = []
@@ -65,8 +56,10 @@ class Api(webapp2.RequestHandler):
 		if(startdate != "" or enddate != ""):
 			startdate = time.strptime(self.request.get('Startdate'), "%d-%m-%Y")
 			enddate = time.strptime(self.request.get('Enddate'), "%d-%m-%Y")
+		
+		analysismodule = mainmodule.sentimentanalysismodule(media, topic)
 
-
+		analysismodule.startanalysis()
 
 		#"%d. %B %Y, %H:%M"
 				

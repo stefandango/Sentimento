@@ -53,8 +53,6 @@ class DownloadSubjectUrls:
 			startjulian = getjuliandate(startdate)
 			endjulian = getjuliandate(enddate)
 
-
-
 		mediadict = {}
 		for media in self.medialist:
 			if(startjulian != None and startjulian != None):

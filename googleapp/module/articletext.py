@@ -17,13 +17,12 @@ class Articlescrape:
 		self.config = configdict[host]
 		self.soup = self._downloadurl()
 
-	def _downloadurl(self):		
+	def _downloadurl(self):	
+		html = ""	
 		# Get HTML
-		try:
-			response = urllib2.urlopen(self.url)
-			html = response.read()
-		except Exception, e:
-			print 'Failed to open "%s".' % url
+
+		response = urllib2.urlopen(self.url)
+		html = response.read()
 
 		# Prepare for DOM-manipulation
 		soup = BeautifulSoup(html, convertEntities=BeautifulSoup.HTML_ENTITIES)
@@ -46,7 +45,7 @@ class Articlescrape:
 		rgx = re.compile("[\w']+", re.UNICODE)
 		textlist = rgx.findall(text)
 		return textlist
-
+"""
 	def getdate(self):
 		#print self.config
 		dateelement = self.soup.find(self.config["date"]["find"][0], { "class" : re.compile(self.config["date"]["find"][1]) })
@@ -59,7 +58,7 @@ class Articlescrape:
 			return date #should be: return date
 		else:
 			return None
-
+"""
 
 
 
