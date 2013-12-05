@@ -5,7 +5,7 @@ import os
 import cgi
 import logging
 import time
-
+from module import mainmodule
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
@@ -22,6 +22,7 @@ medialist = [{"id": "INF", "display": "information.dk" },
 
 test_data = [['Score', 'Ekstrabladet.dk', 'BT.dk', 'Information.dk', 'nyhderne.tv2.dk'],
 		['Lars Loekke Rasmussen',  3.5, 4.5, 5.9, -3.3]]
+
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
@@ -57,6 +58,7 @@ class Api(webapp2.RequestHandler):
 			enddate = time.strptime(self.request.get('Enddate'), "%d-%m-%Y")
 
 		
+
 
 		#"%d. %B %Y, %H:%M"
 				
