@@ -18,6 +18,7 @@ import urlparse
 THREAD_LIMIT = 5
 TASKS = Queue.Queue()
 RESULTS = []
+
 CONFIGDICT = { 
 				"ekstrabladet.dk":
 					{
@@ -55,25 +56,27 @@ class sentimentanalysismodule():
 		self.subject = subject
 		self.startdate = startdate
 		self.enddate = enddate
+		global TASKS
+		global RESULTS
+		TASKS = Queue.Queue()
+		RESULTS = []
 
 	def startanalysis(self):
 		"""
 		Begins the class analysis. 
 		"""
-		#Get available urls
+
+		#Get available urlx
 		downloader = GetNewsPaperUrls.DownloadSubjectUrls(self.medialist, self.subject)
-
 		newspaperurls = downloader.geturllist()
-		urllist = []
-		for newspaper in newspaperurls.keys():
-			urllist += newspaperurls[newspaper]
 
-		for url in urllist:
-			TASKS.put(url)
+		logging.info(newspaperurls)
+		for newspaper in newspaperurls.keys():
+			for url in newspaperurls[newspaper]:
+				TASKS.put(url)
 
 		for _ in range(THREAD_LIMIT):
 			thread = Thread(target=fetchcontent)
-			#thread.setDaemon(True)
 			thread.start()
 
 		TASKS.join()
@@ -82,12 +85,11 @@ class sentimentanalysismodule():
 
 		dividedwordlist = concatenation(RESULTS)
 
-		
-
 		alldata = textlisttosentiment(dividedwordlist)
 
 		logging.info(json.dumps(alldata))
-		return json.dumps(alldata)
+
+		return alldata
 
 
 def concatenation(contentlist):
@@ -105,7 +107,6 @@ def concatenation(contentlist):
 		host = urlparse.urlparse(content[0]).hostname
 		textlist = content[1]
 
-		logging.info(host)
 		"""
 		timetuple = content[2].timetuple()
 
@@ -116,22 +117,22 @@ def concatenation(contentlist):
 		day = timetuple[2]
 		"""
 		#Total text of all host text
-		res[host]["total"]["total"] += textlist
+		res["total"][host]["total"] += textlist
 		"""
 		#host text split into year
-		res[host]["year"][year] += textlist
+		res["year"][host][year] += textlist
 
 		#host text split into month
 		monthstr = str(year) + "-" + str(month)
-		res[host]["month"][monthstr] += textlist
+		res["month"][host][monthstr] += textlist
 
 		#host text split into week
 		weekstr = str(year) + "-" + str(week)
-		res[host][weekstr] += textlist
+		res["week"][host][weekstr] += textlist
 
 		#host text split into day
 		daystr = str(year) + "-" + str(month) + "-" + str(day)
-		res[host]["day"][daystr] += textlist
+		res["day"][host][daystr] += textlist
 		"""
 	return res
 
@@ -143,11 +144,11 @@ def textlisttosentiment(dictionary):
 	"""
 	res = defaultdict(lambda: defaultdict(lambda: defaultdict(float)))
 	sentanalysis = SentimentAnalysis()
-	for paper in dictionary.keys():
-		for granularity in dictionary[paper].keys():
-			for time in dictionary[paper][granularity].keys():
-				textlist = dictionary[paper][granularity][time]
-				res[paper][granularity][time] = sentanalysis.moodscore(textlist)
+	for granularity in dictionary.keys():
+		for paper in dictionary[granularity].keys():
+			for time in dictionary[granularity][paper].keys():
+				textlist = dictionary[granularity][paper][time]
+				res[granularity][paper][time] = sentanalysis.moodscore(textlist)
 	return res
 
 def fetchcontent():
@@ -161,15 +162,16 @@ def fetchcontent():
 			try:
 				task = TASKS.get(block=True)
 				logging.info(task)
-
 				article = Articlescrape(task, CONFIGDICT)
 				textlist = article.gettextlist()
 				#date = article.getdate()
 				
 				#RESULTS.put((task, textlist, date))
 				RESULTS.append(((task, textlist)))
-
 				if TASKS.empty() == True:
-					break					
+					break
+			except:
+				pass
+
 			finally:
 				TASKS.task_done()

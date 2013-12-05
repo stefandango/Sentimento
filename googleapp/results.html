@@ -19,6 +19,7 @@
 		<script type="text/javascript" src="js/convertApiData.js"></script>
 
 		<script type="text/javascript">
+		/*
 			var apiData = {
 			  		all: {
 				  		"ekstrabladet.dk": {"all": 0.7045454545454546}, 
@@ -37,6 +38,7 @@
 						"nyhederne.tv2.dk": {"2012-8-2": 1.5833333333333333, "2013-11-9": -1.0, "2012-7-30": 1.6, "2012-7-26": 0.5, "2012-8-11": 1.375, "2012-8-4": 2.2222222222222223, "2012-7-24": 0.0, "2012-8-1": 0.045454545454545456, "2013-8-15": -1.9166666666666667, "2013-11-8": 0.5555555555555556, "2012-8-13": 2.0, "2012-7-27": 0.7142857142857143, "2012-10-21": 0.38461538461538464, "2012-7-31": 1.1666666666666667}
 				}
 			}
+			*/
 			var apiDateFormats = {
 				year: "YYYY",
 				month: "YYYY-MM",
@@ -61,12 +63,13 @@
 			  	
 				$.get("/api", send_data).done(function(data){
 					var json = $.parseJSON(data);
+					console.log(json);
 					//drawChart(JSON.parse(data));
 
 					// Draw all
-					var allDataTable = getRows(apiData.all);
+					var allDataTable = getRows(json.total);
 					drawAllChart(allDataTable);
-
+					/*
 					// Draw year
 					var yearDataTable = getRows(apiData.year, apiDateFormats.year);
 					drawYearChart(yearDataTable);
@@ -82,6 +85,7 @@
 					// Draw day
 					var dayDataTable = getRows(apiData.day, apiDateFormats.day);
 					drawDayChart(dayDataTable);
+					*/
 
 					$("#ajaxLoader").hide();
 				});

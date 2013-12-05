@@ -59,14 +59,9 @@ class Api(webapp2.RequestHandler):
 		
 		analysismodule = mainmodule.sentimentanalysismodule(media, topic)
 
-		analysismodule.startanalysis()
+		data = analysismodule.startanalysis()
 
-		#"%d. %B %Y, %H:%M"
-				
-		#logging.info(self.request.get('Startdate'))
-
-		jsonObj = json.dumps(test_data)
-		self.response.write(jsonObj)
+		self.response.write(json.dumps(data))
 
 application = webapp2.WSGIApplication([
 	('/', MainPage),

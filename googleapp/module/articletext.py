@@ -6,6 +6,7 @@ import urlparse
 import re
 import locale, datetime, time
 from BeautifulSoup import BeautifulSoup
+import logging
 
 # @TODO: some documentation about the config dict
 # @TODO: try/catch opslag i configdict

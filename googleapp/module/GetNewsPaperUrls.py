@@ -1,6 +1,7 @@
 from google import search
 import jdcal
 from datetime import date, timedelta
+import logging
 
 # @TODO: move parameters to config file
 
@@ -55,12 +56,14 @@ class DownloadSubjectUrls:
 
 		mediadict = {}
 		for media in self.medialist:
+			logging.info("media: " + media)
 			if(startjulian != None and startjulian != None):
 				urllist = geturllistfromquery("site:" + media + " " + self.subject + 
 					" daterange:" + str(startjulian) + "-" + str(endjulian))
 			else:
 				urllist = geturllistfromquery("site:" + media + " " + self.subject)
-			
+			logging.info(urllist)
+
 			mediadict[media] = urllist
 
 		return mediadict
