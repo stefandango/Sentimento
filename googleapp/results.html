@@ -19,26 +19,7 @@
 		<script type="text/javascript" src="js/convertApiData.js"></script>
 
 		<script type="text/javascript">
-		/*
-			var apiData = {
-			  		all: {
-				  		"ekstrabladet.dk": {"all": 0.7045454545454546}, 
-				  		"nyhederne.tv2.dk": {"all": 0.6089743589743589}},
-					year: {
-						"ekstrabladet.dk": {"2013": 0.7045454545454546}, 
-						"nyhederne.tv2.dk": {"2012": 0.9076923076923077, "2013": -0.8846153846153846}},
-					month: {
-						"ekstrabladet.dk": {"2013-11": 0.7010309278350515, "2013-12": 2.1666666666666665, "2013-9": 0.4444444444444444, "2013-10": 0.4}, 
-						"nyhederne.tv2.dk": {"2012-7": 0.7735849056603774, "2012-8": 1.125, "2013-8": -1.9166666666666667, "2012-10": 0.38461538461538464, "2013-5": 0.5555555555555556, "2013-11": -1.0}},
-					week: {
-						"ekstrabladet.dk": {"2013-11": 0.7010309278350515, "2013-12": 2.1666666666666665, "2013-9": 0.4444444444444444, "2013-10": 0.4}, 
-						"nyhederne.tv2.dk": {"2012-7": 0.7735849056603774, "2012-8": 1.125, "2013-8": -1.9166666666666667, "2012-10": 0.38461538461538464, "2013-5": 0.5555555555555556, "2013-11": -1.0}},
-					day: {
-						"ekstrabladet.dk": {"2013-11-8": 2.5714285714285716, "2013-9-7": 0.4444444444444444, "2013-10-19": 0.45454545454545453, "2013-11-7": -0.5833333333333334, "2013-11-5": 0.7777777777777778, "2013-11-13": 0.75, "2013-11-12": 1.0769230769230769, "2013-12-3": 2.1666666666666665, "2013-11-17": 1.0, "2013-11-16": 0.8571428571428571, "2013-11-15": 1.5714285714285714, "2013-11-14": 1.1666666666666667, "2013-11-22": 0.5, "2013-11-20": -0.5, "2013-11-21": 0.0, "2013-11-19": 0.5, "2012-8-13": 0.3333333333333333}, 
-						"nyhederne.tv2.dk": {"2012-8-2": 1.5833333333333333, "2013-11-9": -1.0, "2012-7-30": 1.6, "2012-7-26": 0.5, "2012-8-11": 1.375, "2012-8-4": 2.2222222222222223, "2012-7-24": 0.0, "2012-8-1": 0.045454545454545456, "2013-8-15": -1.9166666666666667, "2013-11-8": 0.5555555555555556, "2012-8-13": 2.0, "2012-7-27": 0.7142857142857143, "2012-10-21": 0.38461538461538464, "2012-7-31": 1.1666666666666667}
-				}
-			}
-			*/
+
 			var apiDateFormats = {
 				year: "YYYY",
 				month: "YYYY-MM",
@@ -69,23 +50,23 @@
 					// Draw all
 					var allDataTable = getRows(json.total);
 					drawAllChart(allDataTable);
-					/*
+					
 					// Draw year
-					var yearDataTable = getRows(apiData.year, apiDateFormats.year);
+					var yearDataTable = getRows(json.year, apiDateFormats.year);
 					drawYearChart(yearDataTable);
 
 					// Draw month
-					var monthDataTable = getRows(apiData.month, apiDateFormats.month);
+					var monthDataTable = getRows(json.month, apiDateFormats.month);
 					drawMonthChart(monthDataTable);
 
 					// Draw week
-					var weekDataTable = getRows(apiData.week, apiDateFormats.week);
+					var weekDataTable = getRows(json.week, apiDateFormats.week);
 					drawWeekChart(weekDataTable);
 
 					// Draw day
-					var dayDataTable = getRows(apiData.day, apiDateFormats.day);
+					var dayDataTable = getRows(json.day, apiDateFormats.day);
 					drawDayChart(dayDataTable);
-					*/
+					
 
 					$("#ajaxLoader").hide();
 				});

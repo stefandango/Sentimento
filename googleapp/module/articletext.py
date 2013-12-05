@@ -6,7 +6,8 @@ import urlparse
 import re
 import locale, datetime, time
 from BeautifulSoup import BeautifulSoup
-import logging
+from localeFormat import LocaleFormat
+
 
 # @TODO: some documentation about the config dict
 # @TODO: try/catch opslag i configdict
@@ -46,20 +47,24 @@ class Articlescrape:
 		rgx = re.compile("[\w']+", re.UNICODE)
 		textlist = rgx.findall(text)
 		return textlist
-"""
+
 	def getdate(self):
 		#print self.config
 		dateelement = self.soup.find(self.config["date"]["find"][0], { "class" : re.compile(self.config["date"]["find"][1]) })
 		if dateelement:
-			
+				
 			datestring = dateelement.findAll(text=True)[0]
-			locale.setlocale(locale.LC_ALL, 'da_DK.UTF-8') 
-			date = datetime.datetime.strptime(datestring, self.config["date"]["format"]).date()
+			
+			lf = LocaleFormat()
+			date = lf.strptime(datestring, self.config["date"]["format"], "da_DK", "C")
+
+			#locale.setlocale(locale.LC_ALL, 'da_DK.UTF-8') 
+			#date = datetime.datetime.strptime(datestring, self.config["date"]["format"]).date()
 
 			return date #should be: return date
 		else:
 			return None
-"""
+
 
 
 
