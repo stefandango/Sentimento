@@ -127,7 +127,7 @@ pool = Pool(processes=10)
 contentlist = pool.map(fetchcontent, urls)
 print "contentlist"
 print contentlist
-granularity = "day";
+granularity = "all";
 paperText = concanate(contentlist, granularity)
 print "paperText"
 print paperText
