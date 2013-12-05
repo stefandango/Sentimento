@@ -6,7 +6,6 @@ import cgi
 import logging
 import time
 from module import mainmodule
-
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
@@ -41,6 +40,7 @@ class ShowResults(webapp2.RequestHandler):
 		
 class Api(webapp2.RequestHandler):
 	def get(self):
+
 		#Sanitize input 
 		topic = self.request.get('Topic')
 		Sources = self.request.get('Sources').split(",")
