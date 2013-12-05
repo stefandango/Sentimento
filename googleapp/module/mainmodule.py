@@ -53,6 +53,11 @@ class sentimentanalysismodule():
 
 	def __init__(self, medialist, subject, startdate=None, enddate=None):
 		self.medialist = medialist
+		logging.info(":::SUBJECT::: " + subject)
+		badchars = ['<','>','\"','\'','\\','/',';',':','!','?']
+		for badchar in badchars:
+			subject = subject.replace(badchar, '')
+		logging.info(":::SUBJECT::: " + subject)
 		self.subject = subject
 		self.startdate = startdate
 		self.enddate = enddate
