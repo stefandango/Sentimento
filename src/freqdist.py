@@ -37,12 +37,3 @@ class FrequencyDistribution:
 	
 	def __RemoveThreshold(self, words, threshold):
 		return [word for word in words if len(word) >= threshold]
-
-if __name__ == "__main__":
-	if len(sys.argv) > 1:
-		path = sys.argv[1]
-		contents = open(path, 'r').read()
-		fd = FrequencyDistribution(contents, 4)   
-		print fd.distribution.items()[:20];
-	else:
-		print "Provide a path to text file."    
