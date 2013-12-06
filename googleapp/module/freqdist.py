@@ -17,6 +17,10 @@ Requirements::
 import nltk
 import sys
 
+__version__ = 1.00
+__author__ = "Group 21"
+__all__ = ["freqdist"]
+
 class FrequencyDistribution:
 	"""Computes the Frequency Distribution."""
 	def __init__(self, contents, threshold):

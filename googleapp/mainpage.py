@@ -25,6 +25,10 @@ import logging
 import time
 import mainmodule
 
+__version__ = 1.00
+__author__ = "Group 21"
+__all__ = ["mainpage"]
+
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],

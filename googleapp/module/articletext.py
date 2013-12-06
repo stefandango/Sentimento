@@ -20,7 +20,7 @@ from localeFormat import LocaleFormat
 
 __version__ = 1.00
 __author__ = "Group 21"
-__all__ = ["localeformat"]
+__all__ = ["articletext"]
 
 class Articlescrape:
 	"""Fetches the body text from online articles."""
