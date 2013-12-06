@@ -3,7 +3,7 @@
 # This file incudes all main functionality for downloading desired
 # data and calculating the sentiment analysis
 
-
+  
 import StringIO
 from collections import defaultdict
 import re
@@ -12,6 +12,7 @@ from threading import Thread, Lock
 import Queue
 import logging
 import urlparse
+import config
 from datetime import datetime, date, time
 from google.appengine.ext import ndb
 from module import GetNewsPaperUrls
@@ -21,31 +22,6 @@ from module import SentimentAnalysis
 THREAD_LIMIT = 5
 TASKS = Queue.Queue()
 RESULTS = []
-
-CONFIGDICT = { 
-				"ekstrabladet.dk":
-					{
-						"text": {
-							"find": ("div", "bodytext*"),
-							"extract": [("a", None), ("b", None)]
-						},
-						"date": {	
-							"find": ("span", "articletime"),
-							"format": "%d. %B %Y kl. %H:%M"
-						}
-					},
-				"nyhederne.tv2.dk":
-					{
-						"text": {
-							"find": ("div", "page-body"),
-							"extract": [("script", None), ("strong", None), ("div", "ads"), ("aside", "tools")]
-						},
-						"date": {
-							"find": ("time", "page-timestamp"),
-							"format": "%d. %B %Y, %H:%M"
-						}
-					}
-			}
 
 class Article(ndb.Model):
     """Models an individual Guestbook entry with author, content, and date."""
