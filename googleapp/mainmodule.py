@@ -31,6 +31,7 @@ from google.appengine.ext import ndb
 from module import GetNewsPaperUrls
 from module import articletext
 from module import SentimentAnalysis
+import config
 
 THREAD_LIMIT = 5
 TASKS = Queue.Queue()
@@ -241,7 +242,7 @@ def fetchcontent():
 					date = article.date
 					
 				else:
-					article = articletext.Articlescrape(task, CONFIGDICT)
+					article = articletext.Articlescrape(task, config.CONFIGDICT)
 					textlist = article.gettextlist()
 					date = article.getdate()
 					db.putArticle(task, date, textlist)
@@ -262,4 +263,3 @@ if __name__ == "__main__":
 	enddate = args[4]
 	
 	articlescrape = sentimentanalysismodule(self, medialist, subject, startdate=None, enddate=None)
-	
