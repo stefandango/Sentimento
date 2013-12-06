@@ -1,3 +1,21 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+"""
+:mod:`mainpage` -- Used for serving the web interface to the users
+==================================================================
+
+:synopsis: Produces the webpages, using jinja2, and handles API calls.
+
+Requirements::
+	1.	The webapp2 framwework
+		http://webapp-improved.appspot.com/
+	2.	The jinja2 framework
+		http://jinja.pocoo.org/
+    3.  The Google App Engine launcher is used to launch the application
+		https://developers.google.com/appengine/
+"""
+
 import webapp2
 import jinja2
 import json
@@ -25,13 +43,20 @@ test_data = [['Score', 'Ekstrabladet.dk', 'BT.dk', 'Information.dk', 'nyhderne.t
 		['Lars Loekke Rasmussen',  3.5, 4.5, 5.9, -3.3]]
 
 
+
 class MainPage(webapp2.RequestHandler):
     def get(self):
+	"""
+	Creates the main page, using a Jinja template.
+	"""
 		template_values = {"site_list": medialist}
 		template = JINJA_ENVIRONMENT.get_template('scrape.html')
 		self.response.write(template.render(template_values))
 
 class ShowResults(webapp2.RequestHandler):
+	"""
+	Creates the results page, using a Jinja template.
+	"""
 	def get(self):
 		calc = ((len(test_data) - 1) * 400) + 100
 		width = min(calc, 1200)
@@ -40,9 +65,10 @@ class ShowResults(webapp2.RequestHandler):
 		self.response.write(template.render(template_values))
 		
 class Api(webapp2.RequestHandler):
+	"""
+	Performs a call to the module, to perform the Sentiment analysis, using paramters defined in the URL
+	"""
 	def get(self):
-
-		#Sanitize input 
 		topic = self.request.get('Topic')
 		Sources = self.request.get('Sources').split(",")
 
@@ -64,9 +90,9 @@ class Api(webapp2.RequestHandler):
 			analysismodule = mainmodule.sentimentanalysismodule(media, topic)
 
 		data = analysismodule.startanalysis()
-
 		self.response.write(json.dumps(data))
 
+#Handled by Google App Engine Launcher
 application = webapp2.WSGIApplication([
 	('/', MainPage),
     ('/result', ShowResults),
