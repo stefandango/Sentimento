@@ -5,7 +5,7 @@ import logging
 
 # @TODO: move parameters to config file
 
-def geturllistfromquery(query, amount=30):
+def geturllistfromquery(query, amount=3):
 	"""
 	docstring
 	"""
