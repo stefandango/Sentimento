@@ -3,6 +3,16 @@
 # This file incudes all main functionality for downloading desired
 # data and calculating the sentiment analysis
 
+"""
+:mod:`mainmodule` -- incudes all main functionality for 
+			downloading desired data and calculating the sentiment analysis.
+============================================================================
+
+:synopsis: Fetches the body text from online articles.
+
+Requirements::
+    1.  Run the code in an 2.7 environment
+"""
 
 import StringIO
 from collections import defaultdict
@@ -47,14 +57,31 @@ CONFIGDICT = {
 					}
 			}
 
+__version__ = 1.00
+__author__ = "Group 21"
+__all__ = ["mainmodule"]
+
 class Article(ndb.Model):
-    """Models an individual Guestbook entry with author, content, and date."""
-    url = ndb.StringProperty()
-    date = ndb.DateTimeProperty()
-    textlist = ndb.JsonProperty()
+	"""
+	Defines an entry in the database.
+	"""
+	url = ndb.StringProperty()
+	date = ndb.DateTimeProperty()
+	textlist = ndb.JsonProperty()
 
 class Db():
+	"""
+	Handles commands and queries to the database.
+	"""
 	def putArticle(self, url, datetime, textlist):
+		"""
+		Adds a new entry to the database.
+		
+		Args:
+			url (str) - The URL to the article
+			datetime (datetime) - The date (if any) that the article was published.
+			textlist (list) - The contents of the body text, of the article.
+		"""
 		key = ndb.Key('ArticleStore', 'alpha')
 		article = Article(parent=key)
 
@@ -65,6 +92,16 @@ class Db():
 		logging.info("putted:" + article.url)
 
 	def getArticle(self, url):
+		"""
+		Queries the database for an entry.
+		
+		Args:
+			url (str) - The URL to the article, that is to be used for the query.
+			
+		Returns:
+			article (Article) - The article object that was stored in the database.
+								If the article isn't found, None is returned.
+		"""
 		articles_query = Article.query(Article.url == url)
 		articles = articles_query.fetch(1)
 		logging.info(articles)
@@ -77,12 +114,18 @@ class Db():
 
 class sentimentanalysismodule():
 	"""
-	The sentimentanalysismodule uses google to download a list og urls
-	the content of each url are scraped based on the configeration file
-	finally all data is processed through a text sentiment analysis
+	Performs online searches for articles for a given subject, and
+	computes a sentiment analysis 'score' for the articles.
 	"""
-
 	def __init__(self, medialist, subject, startdate=None, enddate=None):
+		"""
+		Kwargs:
+			medialist (list) - A list of the hostnames to be searched for articles.
+			subject (str) - The subject to search for
+			startdate (datetime) - If provided, the search will return articles after this date.
+			enddate (datetime) - If provided, the search will return articles before this date.
+		"""
+		
 		self.medialist = medialist
 		
 		badchars = ['<','>','\"','\'','\\','/',';',':','!','?']
@@ -100,9 +143,11 @@ class sentimentanalysismodule():
 	def startanalysis(self):
 		"""
 		Begins the class analysis. 
+		
+		Returns:
+			(json) - A json object containing the results of the sentiment analysis.
 		"""
-
-		#Get available urlx
+		
 		downloader = GetNewsPaperUrls.DownloadSubjectUrls(self.medialist, self.subject)
 		newspaperurls = downloader.geturllist()
 
@@ -119,7 +164,7 @@ class sentimentanalysismodule():
 		
 		logging.info("data aquired.")
 
-		dividedwordlist = concatenation(RESULTS)
+		dividedwordlist = parsedata(RESULTS)
 
 		alldata = textlisttosentiment(dividedwordlist)
 
@@ -128,12 +173,18 @@ class sentimentanalysismodule():
 		return alldata
 
 
-def concatenation(contentlist):
+def parsedata(contentlist):
 	"""
-	concatenation takes a list of tubles containing url, text and date
+	parsedata takes a list of tubles containing url, text and date
 	it splits text up based on its host and date. granularity of time is 
 	divided into day, week, month, year and a total value.
 	A dictionary containing all data is returned. 
+	
+	Args:
+		contentlist (list) - The list of tuples to process.
+	
+	Returns:
+		res (dict) - A three-dimentional dictionary, containing the result of the processing.
 	"""
 	res = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
 
@@ -176,9 +227,15 @@ def concatenation(contentlist):
 
 def textlisttosentiment(dictionary):
 	"""
-	Adds time as a key in the given dictionary
-	returns the modified dictionary.
+	Replaces text by sentiment score in dictionary.
+	
+	Args:
+		dictionary (dict) - A dictionary with article texts.
+		
+	Returns:
+		dictionary (dict) - The modified version of the input dictionary.
 	"""
+	
 	res = defaultdict(lambda: defaultdict(lambda: defaultdict(float)))
 	sentanalysis = SentimentAnalysis.SentimentAnalysis()
 	for granularity in dictionary.keys():
@@ -219,3 +276,14 @@ def fetchcontent():
 
 			finally:
 				TASKS.task_done()
+
+if __name__ == "__main__":
+	import sys
+	args = sys.argv
+	medialist = args[1]
+	subject = args[2]
+	startdate = args[3]
+	enddate = args[4]
+	
+	articlescrape = sentimentanalysismodule(self, medialist, subject, startdate=None, enddate=None)
+	
