@@ -14,7 +14,6 @@ Requirements::
 import urllib2
 import urlparse
 import re
-import locale, datetime, time
 from BeautifulSoup import BeautifulSoup
 from localeFormat import LocaleFormat
 
