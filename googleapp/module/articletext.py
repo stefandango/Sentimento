@@ -86,11 +86,11 @@ class Articlescrape:
 		return date
 			
 if __name__ == "__main__":
-    import sys
-    args = sys.argv
+	import sys
+	args = sys.argv
 	url = args[1]
 	configdict = args[2]
-	
+
 	articlescrape = Articlescrape(url, configdict)
 	print articlescrape.getdate()
 	print articlescrape.gettextlist()
