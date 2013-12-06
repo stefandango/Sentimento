@@ -2,39 +2,29 @@
 # -*- coding: utf-8 -*- 
 
 """
-Module Sentiment Analysis
-Words list credits: language assessment by Mechanical Turk 1.0
+:mod:`SentimentAnalysis` -- Sentiment Analysis Module 
+===============================================
+
+:synopsis: the module is used to determine how positive 
+                or negative an attidude a given text have, the moodscore. 
+                From a text a float is returned with the result.
+
+Requirements::
+    1.  You need to install the codecs module
+
+Notes::
+    Credit for the word list used goes to Finn Årup Nielsen
 """
+
 import urllib2
 import codecs
 
 __version__ = 1.00
-__author__ = "s092874"
+__author__ = "Gruppe 21"
 __all__ = ["SentimentAnalysis"]
 
 class SentimentAnalysis:
-    """
-    The SentimentAnalysis module determines a value from a 1 to 10 scale. The 
-    number indicate whether a given text is positive, negative, or neutral. 10 
-    beeing the upper positive limit. The module supplies one function, 
-    moodscore(). For example:    
-    
-    >>> sa = SentimentAnalysis()
-    >>> sa.moodscore(['love'])
-    8.42
-    
-    >>> sa.moodscore(['xyz'])
-    5.5
-    
-    >>> sa.moodscore(['love', 'hate', 'xyz'])
-    5.38
-
-
-    Alternatively use it with the command:
-    
-    python SentimentAnalysis.py love hate xyz
-
-    """
+    """Calculating moodscore from wordlist"""
 
     def __init__(self):
         self.moodscoreDict = self._moodscoreDict()
@@ -42,21 +32,30 @@ class SentimentAnalysis:
         # @TODO: move filename
 
     def _moodscoreDict(self):
-        """
-        Returns words and values
+        """Initializes the dictionary used to look up the moodscore for a given word
+
+        Args:
+            None
+
+        Returns:
+            (dict) The dictionary hold keys and values, words and moodscore correspondly
+        
         """
         filename = "AFINN.da-19.txt"
         respond_lines = codecs.open(filename, "r", "utf-8").readlines()
         respond_lines_splitted = [line.split('\t') for line in respond_lines]
-        #print respond_lines_splitted
         moodscore_dict = dict(map(lambda (line): (line[0], float(line[1])),
             respond_lines_splitted))
-        #print moodscore_dict
         return moodscore_dict
 
     def moodscore(self, words):
-        """
-        Returns a single value
+        """The method is used for calculating the moodscore. 
+        Args:
+            (list) a list of words
+
+        Returns:
+            (float) the moodscore calculated from all the words in the list given
+
         """
         numerator = 0
         denominator = 0

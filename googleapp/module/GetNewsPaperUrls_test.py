@@ -7,7 +7,6 @@ class GetNewsPaperUrlsTest(unittest.TestCase):
 		EB = "ekstrabladet.dk"
 		dsu = DownloadSubjectUrls([EB], "Scharf")
 		urllist = dsu.geturllist()
-		self.assertEqual(True, True)
 		for site in urllist[EB]:
 			self.assertTrue(EB in site)
 		
