@@ -1,9 +1,5 @@
 import nltk
-
-#	Call:
-#		fd = FrequencyDistribution(contents, 4)   
-#		print fd.distribution.items()[:20];
-#
+import sys
 
 class FrequencyDistribution:
 
@@ -11,16 +7,16 @@ class FrequencyDistribution:
 		self.threshold = threshold
 		self.distribution = self.__ComputeFrequencyDistribution(contents)
 
-	def Print(self):
-		print self.distribution.items()[:20]
+	def Print(self, entries):
+		print self.distribution.items()[:entries]
 
-	def ChartString(self):
-		output_str = str(self.distribution.items()[:20])
+	def ChartString(self, entries=20):
+		output_str = str(self.distribution.items()[:entries])
 		output_str = output_str.replace("(", "[")
 		output_str = output_str.replace(")", "]")
 		output_str = output_str.replace("[[", "[['Word', 'Occurrences'], [")
 		return output_str
-
+	
 	def __ComputeFrequencyDistribution(self, contents):
 		#remove bad characters
 		contents = self.__RemoveBadChars(contents)
