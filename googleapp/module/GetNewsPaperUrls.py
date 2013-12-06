@@ -118,3 +118,8 @@ class DownloadSubjectUrls:
 
 		return mediadict
 
+if __name__ == "__main__":
+    import sys
+    args = sys.argv
+    downloader = DownloadSubjectUrls(args[1], args[2])
+    print downloader.geturllist()
