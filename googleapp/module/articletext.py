@@ -16,6 +16,7 @@ import urlparse
 import re
 from BeautifulSoup import BeautifulSoup
 from localeFormat import LocaleFormat
+import logging
 
 __version__ = 1.00
 __author__ = "Group 21"
@@ -75,9 +76,10 @@ class Articlescrape:
 		Returns:
 			date (datetime) - The date extracted from the article, if it exists
 		"""
-		
+		logging.info("getdate")
 		date = None
 		dateelement = self.soup.find(self.config["date"]["find"][0], { "class" : re.compile(self.config["date"]["find"][1]) })
+		logging.info(dateelement)
 		if dateelement:
 			datestring = dateelement.findAll(text=True)[0]
 			lf = LocaleFormat()

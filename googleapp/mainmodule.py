@@ -58,6 +58,9 @@ class Db():
 			datetime (datetime) - The date (if any) that the article was published.
 			textlist (list) - The contents of the body text, of the article.
 		"""
+
+		if(datetime == None):
+			return
 		key = ndb.Key('ArticleStore', 'alpha')
 		article = Article(parent=key)
 
@@ -80,7 +83,7 @@ class Db():
 		"""
 		articles_query = Article.query(Article.url == url)
 		articles = articles_query.fetch(1)
-		logging.info(articles)
+		#logging.info(articles)
 		if not articles:
 			return None
 		else:
@@ -138,9 +141,9 @@ class sentimentanalysismodule():
 			thread.start()
 
 		TASKS.join()
-		
-		logging.info("data aquired.")
 
+		logging.info("data aquired.")
+		#logging.info(RESULTS)
 		dividedwordlist = parsedata(RESULTS)
 
 		alldata = textlisttosentiment(dividedwordlist)
@@ -212,7 +215,9 @@ def textlisttosentiment(dictionary):
 	Returns:
 		dictionary (dict) - The modified version of the input dictionary.
 	"""
-	
+	logging.info("text to sentiment BEGIN!!!!!!!!!!")
+	logging.info(json.dumps(dictionary))
+
 	res = defaultdict(lambda: defaultdict(lambda: defaultdict(float)))
 	sentanalysis = SentimentAnalysis.SentimentAnalysis()
 	for granularity in dictionary.keys():
@@ -220,6 +225,7 @@ def textlisttosentiment(dictionary):
 			for time in dictionary[granularity][paper].keys():
 				textlist = dictionary[granularity][paper][time]
 				res[granularity][paper][time] = sentanalysis.moodscore(textlist)
+	logging.info("text to sentiment END!!!!!!!!!!")
 	return res
 
 def fetchcontent():
